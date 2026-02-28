@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>TCI Portfolio | Technology & Computer Innovation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0b0e14;
+  --card:rgba(255,255,255,.08);
+  --text:#ffffff;
+  --sub:#cbd5e1;
+  --primary:#ff5c7c;
+  --accent:#38bdf8;
+}
+.light{
+  --bg:#f4f6fb;
+  --card:#ffffff;
+  --text:#0f172a;
+  --sub:#334155;
+  --accent:#f59e0b;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Prompt',sans-serif}
+body{
+  background:var(--bg);
+  color:var(--text);
+  padding-top:96px;
+  transition:.4s;
+}
+
+/* HEADER */
+header{
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  height:96px;
+  padding:0 36px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:16px;
+  background:#111;
+  z-index:100;
+}
+
+.logo-box{
+  position:absolute;
+  left:36px;
+  height:60px;
+  display:flex;
+  align-items:center;
+}
+.logo-box img{height:200px;width:auto}
+
+.lang-switch{
+  position:relative;
+  width:96px;height:36px;
+  background:rgba(255,255,255,.15);
+  border-radius:30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 10px;
+  font-weight:600;
+  cursor:pointer;
+}
+.lang-switch span{z-index:2}
+.lang-indicator{
+  position:absolute;
+  top:4px;left:4px;
+  width:44px;height:28px;
+  background:linear-gradient(135deg,var(--primary),#ff8fab);
+  border-radius:20px;
+  transition:.4s cubic-bezier(.68,-0.55,.27,1.55);
+}
+.lang-switch.en .lang-indicator{left:48px}
+
+.theme-switch{
+  width:44px;height:44px;
+  border-radius:50%;
+  border:none;
+  cursor:pointer;
+  background:radial-gradient(circle,var(--accent),transparent 65%);
+  font-size:20px;
+}
+
+/* MAIN */
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:40px 20px 120px;
+  text-align:center;
+}
+
+h1{color:var(--primary);font-size:2.8rem}
+.subtitle{color:var(--sub);margin:10px 0 50px}
+
+/* GRID 3x3 */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:30px;
+  text-align:left;
+}
+@media(max-width:1024px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .grid{grid-template-columns:1fr}
+}
+
+/* CARD */
+.card{
+  background:var(--card);
+  border-radius:26px;
+  overflow:hidden;
+  backdrop-filter:blur(12px);
+  transition:.4s;
+}
+.card:hover{
+  transform:translateY(-10px);
+  box-shadow:0 20px 40px rgba(0,0,0,.4);
+}
+
+/* SLIDER */
+.slider{
+  position:relative;
+  height:220px;
+  overflow:hidden;
+  cursor:pointer;
+}
+.slider img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:.5s;
+}
+.slider img.active{opacity:1}
+
+/* CONTROLS */
+.ctrl{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:42px;height:42px;
+  border-radius:50%;
+  border:none;
+  background:rgba(0,0,0,.55);
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+  z-index:5;
+}
+.ctrl.prev{left:12px}
+.ctrl.next{right:12px}
+
+/* BODY */
+.card-body{padding:26px}
+.card h3{color:var(--accent);margin-bottom:10px}
+.card p{color:var(--sub);line-height:1.8;font-size:.95rem}
+
+/* BACK FIXED */
+.back{
+  position:fixed;
+  top:120px; /* ← ปรับลงมาอีก */
+  right:24px;
+  padding:12px 22px;
+  border-radius:40px;
+  background:linear-gradient(135deg,var(--primary),#ff8fab);
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+  z-index:150;
+}
+
+
+
+/* MODAL */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(6px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.4s;
+  z-index:999;
+}
+.modal.show{
+  opacity:1;
+  pointer-events:auto;
+}
+.modal-box{
+  width:min(920px,92%);
+  background:var(--card);
+  border-radius:26px;
+  overflow:hidden;
+  position:relative;
+}
+.modal-slider{
+  position:relative;
+  height:420px;
+}
+.modal-slider img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+}
+.modal-slider img.active{opacity:1}
+
+.modal-content{padding:28px}
+.modal-content h2{color:var(--accent)}
+.modal-content p{color:var(--sub);line-height:1.9}
+
+.modal-close{
+  position:absolute;
+  top:20px;right:20px;
+  width:44px;height:44px;
+  border-radius:50%;
+  border:none;
+  font-size:22px;
+  background:rgba(0,0,0,.6);
+  color:#fff;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo-box">
+    <img src="logo.png" alt="TCI MCRU Logo">
+  </div>
+  <div class="lang-switch" id="langSwitch" onclick="toggleLang()">
+    <div class="lang-indicator"></div>
+    <span>TH</span><span>EN</span>
+  </div>
+  <button class="theme-switch" id="themeBtn" onclick="toggleTheme()">🌙</button>
+</header>
+
+<section class="container">
+  <h1 data-th="ผลงาน TCI" data-en="Portfolio">ผลงาน TCI</h1>
+  <p class="subtitle" data-th="ประสบการณ์จริงจากการลงมือทำ ฝึกจริง ใช้งานจริง"
+     data-en="Real hands-on experience through real practice">
+     ประสบการณ์จริงจากการลงมือทำ ฝึกจริง ใช้งานจริง
+  </p>
+
+  <div class="grid">
+    <!-- ใช้โครงสร้างการ์ดเดิมทั้ง 9 ใบ (ไม่ลบ) -->
+    <!-- เพิ่ม onclick="openModal(this)" ที่ slider ทุกใบ -->
+    <!-- (ตัวอย่างใบแรก ใบอื่นเหมือนกัน) -->
+
+    <div class="card">
+      <div class="slider" onclick="openModal(this)">
+        <img src="images/p1-1.jpg" class="active">
+        <img src="images/p1-2.jpg">
+        <img src="images/p1-3.jpg">
+        <img src="images/p1-4.jpg">
+        <img src="images/p1-5.jpg">
+        <img src="images/p1-6.jpg">
+        <button class="ctrl prev" onclick="event.stopPropagation();slide(this,-1)">‹</button>
+        <button class="ctrl next" onclick="event.stopPropagation();slide(this,1)">›</button>
+      </div>
+      <div class="card-body">
+        <h3 data-th="โครงการพัฒนาทักษะ Coding เชิงปฏิบัติ"
+            data-en="Practical Coding Skills Development Project">
+            โครงการพัฒนาทักษะ Coding เชิงปฏิบัติ
+        </h3>
+        <p data-th="ฝึกเขียนโค้ด วิเคราะห์ปัญหา และพัฒนาโซลูชัน"
+           data-en="Practice coding, problem analysis, and solution development">
+           ฝึกเขียนโค้ด วิเคราะห์ปัญหา และพัฒนาโซลูชัน
+        </p>
+      </div>
+    </div>
+<div class="card">
+      <div class="slider" onclick="openModal(this)">
+        <img src="images/p2-1.jpg" class="active">
+        <img src="images/p2-2.jpg">
+        <img src="images/p2-3.jpg">
+        <img src="images/p2-4.jpg">
+        <img src="images/p2-5.jpg">
+        <img src="images/p2-6.jpg">
+        <img src="images/p2-7.jpg">
+        <img src="images/p2-8.jpg">
+        <button class="ctrl prev" onclick="slide(this,-1)">‹</button>
+        <button class="ctrl next" onclick="slide(this,1)">›</button>
+      </div>
+      <div class="card-body">
+        <h3 data-th="การถ่ายทอดสดและโปรดักชัน"
+            data-en="Live Streaming & Production">
+            การถ่ายทอดสดและโปรดักชัน
+        </h3>
+        <p data-th="ซ้อมบท เล่นจริง ไลฟ์จริง ครบกระบวนการ Production"
+           data-en="Script rehearsal, real performance, live broadcast, and full production workflow">
+           ซ้อมบท เล่นจริง ไลฟ์จริง ครบกระบวนการ Production
+        </p>
+      </div>
+    </div>
+<!-- 3 -->
+    <div class="card">
+      <div class="slider" onclick="openModal(this)">
+        <img src="images/esport-1.jpg" class="active">
+        <img src="images/esport-2.jpg">
+        <img src="images/esport-3.jpg">
+        <img src="images/esport-4.jpg">
+        <img src="images/esport-5.jpg">
+        <img src="images/esport-6.jpg">
+        <img src="images/esport-7.jpg">
+        <img src="images/esport-8.jpg">
+        <img src="images/esport-9.jpg">
+        <img src="images/esport-10.jpg">
+        <img src="images/esport-11.jpg">
+        <button class="ctrl prev" onclick="slide(this,-1)">‹</button>
+        <button class="ctrl next" onclick="slide(this,1)">›</button>
+      </div>
+      <div class="card-body">
+        <h3 data-th="จัดการแข่งขัน E-sport"
+            data-en="E-sport Tournament Management">
+            จัดการแข่งขัน E-sport
+        </h3>
+        <p data-th="วางแผนการแข่งขัน • ควบคุมระบบ • แข่งขันจริงบนเวที"
+           data-en="Tournament planning • system control • live stage competition">
+           วางแผนการแข่งขัน • ควบคุมระบบ • แข่งขันจริงบนเวที
+        </p>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="card">
+      <div class="slider" onclick="openModal(this)">
+        <img src="images/p4-1.jpg" class="active">
+        <img src="images/p4-2.jpg">
+        <img src="images/p4-3.jpg">
+        <img src="images/p4-4.jpg">
+        <button class="ctrl prev" onclick="slide(this,-1)">‹</button>
+        <button class="ctrl next" onclick="slide(this,1)">›</button>
+      </div>
+      <div class="card-body">
+        <h3 data-th="โครงการซ่อมบำรุงและสนับสนุนระบบคอมพิวเตอร์"
+            data-en="Computer System Maintenance & Support Project">
+            โครงการซ่อมบำรุงและสนับสนุนระบบคอมพิวเตอร์
+        </h3>
+        <p data-th="ดูแลระบบจริง แก้ไขปัญหาจริง ในสภาพแวดล้อมการทำงานจริง"
+           data-en="Real system maintenance and troubleshooting in real working environments">
+           ดูแลระบบจริง แก้ไขปัญหาจริง ในสภาพแวดล้อมการทำงานจริง
+        </p>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="card">
+      <div class="slider" onclick="openModal(this)">
+        <img src="images/p5-1.jpg" class="active">
+        <img src="images/p5-2.jpg">
+        <img src="images/p5-3.jpg">
+        <img src="images/p5-4.jpg">
+        <img src="images/p5-5.jpg">
+        <button class="ctrl prev" onclick="slide(this,-1)">‹</button>
+        <button class="ctrl next" onclick="slide(this,1)">›</button>
+      </div>
+      <div class="card-body">
+        <h3 data-th="โครงการผลิตสื่อดิจิทัลและถ่ายภาพเชิงสร้างสรรค์"
+            data-en="Digital Media Production & Creative Photography">
+            โครงการผลิตสื่อดิจิทัลและถ่ายภาพเชิงสร้างสรรค์
+        </h3>
+        <p data-th="ถ่าย ทำ ตัด ต่อ ออกแบบ ครบทุกขั้นตอน"
+           data-en="Shooting, editing, post-production, and design in a complete workflow">
+           ถ่าย ทำ ตัด ต่อ ออกแบบ ครบทุกขั้นตอน
+        </p>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="card">
+      <div class="slider" onclick="openModal(this)">
+        <img src="images/p6-1.jpg" class="active">
+        <img src="images/p6-2.jpg">
+        <img src="images/p6-3.jpg">
+        <img src="images/p6-4.jpg">
+        <button class="ctrl prev" onclick="slide(this,-1)">‹</button>
+        <button class="ctrl next" onclick="slide(this,1)">›</button>
+      </div>
+      <div class="card-body">
+        <h3 data-th="การจำลองระบบ Smart Farm IoT"
+            data-en="Smart Farm IoT System Simulation">
+            การจำลองระบบ Smart Farm IoT
+        </h3>
+        <p data-th="เรียนรู้ระบบเซ็นเซอร์ การเชื่อมต่อ และการควบคุมอัตโนมัติผ่าน Simulation"
+           data-en="Learning sensors, connectivity, and automation through simulation before real deployment">
+           เรียนรู้ระบบเซ็นเซอร์ การเชื่อมต่อ และการควบคุมอัตโนมัติผ่าน Simulation
+        </p>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="card">
+      <div class="slider" onclick="openModal(this)">
+        <img src="images/p7-1.jpg" class="active">
+        <img src="images/p7-2.jpg">
+        <img src="images/p7-3.jpg">
+        <img src="images/p7-4.jpg">
+        <button class="ctrl prev" onclick="slide(this,-1)">‹</button>
+        <button class="ctrl next" onclick="slide(this,1)">›</button>
+      </div>
+      <div class="card-body">
+        <h3 data-th="หุ่นยนต์รถอัจฉริยะ"
+            data-en="Smart Car Robot">
+            หุ่นยนต์รถอัจฉริยะ
+        </h3>
+        <p data-th="เตรียมอุปกรณ์ Smart Car Robot สำหรับจัดค่ายอบรม"
+           data-en="Preparing smart car robot equipment for student training camps">
+           เตรียมอุปกรณ์ Smart Car Robot สำหรับจัดค่ายอบรม
+        </p>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="card">
+      <div class="slider" onclick="openModal(this)">
+        <img src="images/p8-1.jpg" class="active">
+        <img src="images/p8-2.jpg">
+        <button class="ctrl prev" onclick="slide(this,-1)">‹</button>
+        <button class="ctrl next" onclick="slide(this,1)">›</button>
+      </div>
+      <div class="card-body">
+        <h3 data-th="TCI สายเกม"
+            data-en="TCI Gaming Program">
+            TCI สายเกม
+        </h3>
+        <p data-th="ปลูกฝังความเชื่อมั่น ให้เด็กเชื่อว่าตัวเองทำได้"
+           data-en="Building confidence and belief that students can achieve anything">
+           ปลูกฝังความเชื่อมั่น ให้เด็กเชื่อว่าตัวเองทำได้
+        </p>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="card">
+      <div class="slider" onclick="openModal(this)">
+        <img src="images/p9-1.jpg" class="active">
+        <img src="images/p9-2.jpg">
+        <img src="images/p9-3.jpg">
+        <img src="images/p9-4.jpg">
+        <button class="ctrl prev" onclick="slide(this,-1)">‹</button>
+        <button class="ctrl next" onclick="slide(this,1)">›</button>
+      </div>
+      <div class="card-body">
+        <h3 data-th="ทีม EcoBoost"
+            data-en="EcoBoost Team">
+            ทีม EcoBoost
+        </h3>
+        <p data-th="พัฒนาพื้นที่จริง พร้อมนำนวัตกรรม IoT ไปใช้งาน"
+           data-en="Real area development with applied IoT innovation">
+           พัฒนาพื้นที่จริง พร้อมนำนวัตกรรม IoT ไปใช้งาน
+        </p>
+      </div>
+    </div>
+    <!-- การ์ดที่ 2–9 ใช้โครงสร้างเดิมของคุณทั้งหมด -->
+  </div>
+</section>
+
+<a href="index.html" class="back"data-th="← กลับหน้าแรก" data-en="← Back to Home">
+← กลับหน้าแรก</a>
+
+<!-- MODAL -->
+<div class="modal" id="modal" onclick="closeModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-slider" id="modalSlider"></div>
+    <button class="ctrl prev" onclick="modalSlide(-1)">‹</button>
+    <button class="ctrl next" onclick="modalSlide(1)">›</button>
+    <div class="modal-content">
+      <h2 id="modalTitle"></h2>
+      <p id="modalDesc"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleTheme(){
+  document.body.classList.toggle('light');
+  themeBtn.innerText=document.body.classList.contains('light')?'☀️':'🌙';
+}
+
+let lang='th';
+function toggleLang(){
+  lang=lang==='th'?'en':'th';
+  document.querySelectorAll('[data-th]').forEach(el=>{
+    el.innerText=el.dataset[lang];
+  });
+  langSwitch.classList.toggle('en',lang==='en');
+}
+
+function slide(btn,dir){
+  const s=btn.parentElement;
+  const imgs=s.querySelectorAll('img');
+  let i=[...imgs].findIndex(im=>im.classList.contains('active'));
+  imgs[i].classList.remove('active');
+  i=(i+dir+imgs.length)%imgs.length;
+  imgs[i].classList.add('active');
+}
+
+/* MODAL */
+let mImgs=[],mIndex=0;
+function openModal(slider){
+  mImgs=[...slider.querySelectorAll('img')];
+  const modal=document.getElementById('modal');
+  const box=document.getElementById('modalSlider');
+  box.innerHTML='';
+  mImgs.forEach((im,i)=>{
+    const img=document.createElement('img');
+    img.src=im.src;
+    if(im.classList.contains('active')) mIndex=i;
+    box.appendChild(img);
+  });
+  box.children[mIndex].classList.add('active');
+
+  const card=slider.closest('.card');
+  modalTitle.innerText=card.querySelector('h3').innerText;
+  modalDesc.innerText=card.querySelector('p').innerText;
+
+  modal.classList.add('show');
+}
+
+function modalSlide(d){
+  const imgs=document.querySelectorAll('#modalSlider img');
+  imgs[mIndex].classList.remove('active');
+  mIndex=(mIndex+d+imgs.length)%imgs.length;
+  imgs[mIndex].classList.add('active');
+}
+function closeModal(){
+  document.getElementById('modal').classList.remove('show');
+}
+</script>
+
+</body>
+</html>

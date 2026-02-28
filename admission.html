@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Admission 2569 | TCI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0b1220;
+  --bg-soft:#111827;
+  --card:rgba(255,255,255,.06);
+  --text:#ffffff;
+  --sub:#cbd5e1;
+  --primary:#f26b6b;
+  --secondary:#38bdf8;
+  --border:rgba(255,255,255,.12);
+}
+
+body.light{
+  --bg:#f8fafc;
+  --bg-soft:#eef2f7;
+  --card:#ffffff;
+  --text:#0f172a;
+  --sub:#475569;
+  --border:#e5e7eb;
+}
+
+*{box-sizing:border-box;font-family:'Prompt',sans-serif}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at top,var(--secondary) 0%,transparent 40%),
+    var(--bg);
+  color:var(--text);
+}
+
+/* ===== Top Bar ===== */
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:10;
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  padding:14px 20px;
+  backdrop-filter:blur(10px);
+}
+
+/* ===== Language Switch ===== */
+.lang-switch{
+  display:flex;
+  background:rgba(255,255,255,.1);
+  border-radius:999px;
+  padding:6px;
+  gap:6px;
+  box-shadow:
+    inset 0 0 0 1px var(--border),
+    0 8px 20px rgba(0,0,0,.35);
+}
+
+.lang-switch button{
+  min-width:52px;
+  padding:8px 16px;
+  border:none;
+  border-radius:999px;
+  background:transparent;
+  color:var(--sub);
+  font-weight:600;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.lang-switch button.active{
+  background:linear-gradient(135deg,#ff7a9e,#ff4d6d);
+  color:#fff;
+  box-shadow:0 6px 18px rgba(255,77,109,.6);
+}
+
+/* ===== Theme Button ===== */
+.theme-btn{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:none;
+  cursor:pointer;
+  font-size:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:radial-gradient(circle at top,#38bdf8,#0ea5e9);
+  box-shadow:
+    0 0 0 2px rgba(56,189,248,.35),
+    0 10px 30px rgba(0,0,0,.5);
+  transition:.3s;
+}
+
+body.light .theme-btn{
+  background:radial-gradient(circle at top,#ffd166,#fbbf24);
+  box-shadow:
+    0 0 0 2px rgba(251,191,36,.45),
+    0 10px 30px rgba(0,0,0,.35);
+}
+
+.theme-btn:hover{transform:scale(1.08)}
+
+/* ===== Back Home Floating Button ===== */
+.back-home{
+  position:fixed;
+  top:100px;      /* ปรับลงมาอีกได้ */
+  right:24px;
+  left:auto;
+  bottom:auto;
+  z-index:300;
+  padding:14px 22px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#38bdf8,#0ea5e9);
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+  box-shadow:0 10px 30px rgba(56,189,248,.45);
+  transition:.3s;
+}
+
+
+.back-home:hover{
+  transform:translateY(-3px);
+  box-shadow:0 14px 36px rgba(56,189,248,.6);
+}
+
+/* ===== Hero ===== */
+.hero{
+  max-width:1000px;
+  margin:40px auto 50px;
+  padding:0 20px;
+  text-align:center;
+}
+
+.hero-logo{
+  display:flex;
+  justify-content:center;
+  margin-bottom:36px;
+}
+
+.hero-logo img{
+  width:260px;
+  padding:30px 26px;
+  border-radius:100px;
+  background:
+    radial-gradient(circle at top,
+      rgba(56,189,248,.25),
+      rgba(242,107,107,.25),
+      transparent 70%);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.15),
+    0 18px 45px rgba(0,0,0,.45),
+    0 0 40px rgba(242,107,107,.55);
+  transition:.35s;
+}
+
+.hero-logo img:hover{transform:scale(1.08)}
+
+.hero h1{font-size:2.4rem;margin-bottom:12px}
+.hero p{color:var(--sub)}
+
+.hero-actions{
+  margin-top:30px;
+}
+
+.hero-actions a{
+  display:inline-block;
+  margin:8px;
+  padding:16px 28px;
+  border-radius:999px;
+  font-weight:600;
+  text-decoration:none;
+  transition:.3s;
+}
+
+.btn-main{
+  background:linear-gradient(135deg,var(--primary),#ff8fa3);
+  color:#fff;
+  box-shadow:0 10px 30px rgba(242,107,107,.45);
+}
+
+.btn-main:hover{transform:translateY(-3px)}
+
+.btn-ghost{
+  border:2px solid var(--primary);
+  color:var(--primary);
+}
+
+.btn-ghost:hover{
+  background:var(--primary);
+  color:#fff;
+}
+
+/* ===== Sections ===== */
+.section{
+  max-width:1000px;
+  margin:0 auto 60px;
+  padding:0 20px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:30px;
+}
+
+ul.info-list{
+  margin:0;
+  padding-left:20px;
+  line-height:1.9;
+}
+
+.contact-list a{
+  color:var(--secondary);
+  text-decoration:none;
+  font-weight:500;
+}
+
+.contact-list a:hover{text-decoration:underline}
+
+/* ===== Footer ===== */
+footer{
+  text-align:center;
+  padding:30px;
+  color:var(--sub);
+  font-size:.9rem;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ปุ่มกลับหน้าแรก -->
+<a href="index.html" class="back-home">← หน้าแรก</a>
+
+<div class="topbar">
+  <div class="lang-switch">
+    <button id="btn-th" onclick="setLang('th')">TH</button>
+    <button id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+</div>
+
+<div class="hero">
+  <div class="hero-logo">
+    <img src="logo.jpg" alt="TCI Logo">
+  </div>
+
+  <h1 data-th="รับสมัครนักศึกษาใหม่ ปีการศึกษา 2569"
+      data-en="Student Admission Academic Year 2026"></h1>
+
+  <p data-th="สาขาเทคโนโลยีและนวัตกรรมคอมพิวเตอร์ (TCI)"
+     data-en="Technology and Computer Innovation (TCI)"></p>
+
+  <div class="hero-actions">
+    <a class="btn-main" href="https://apr.mcru.ac.th/admission" target="_blank"
+       data-th="สมัครเรียนออนไลน์" data-en="Apply Now"></a>
+
+    <a class="btn-ghost" href="https://www.facebook.com/share/p/15nxUhSW6p/" target="_blank"
+       data-th="ดูรายละเอียดการรับสมัคร" data-en="View Admission Details"></a>
+  </div>
+</div>
+
+<div class="section">
+  <div class="card">
+    <h2 data-th="คุณสมบัติและเงื่อนไขการสมัคร"
+        data-en="Applicant Qualifications"></h2>
+
+    <ul class="info-list">
+      <li data-th="ม.6 กศน. ปวช. ปวส. หรือเทียบเท่า (เด็กซิ่วสมัครได้)"
+          data-en="High school, Non-formal education, Vocational or equivalent"></li>
+      <li data-th="สมัครผ่านระบบออนไลน์"
+          data-en="Apply via online system"></li>
+      <li data-th="ไม่สอบข้อเขียน"
+          data-en="No written examination"></li>
+      <li data-th="ไม่จำกัดเกรดเฉลี่ยบางสาขาวิชา"
+          data-en="No GPA requirement for some programs"></li>
+      <li data-th="ไม่ใช้คะแนน TGAT, TPAT และ A-level"
+          data-en="No TGAT, TPAT or A-level required"></li>
+    </ul>
+  </div>
+</div>
+
+<div class="section">
+  <div class="card">
+    <h2 data-th="ติดตามข่าวรับสมัครนักศึกษาใหม่ ปีการศึกษา 2569"
+        data-en="Admission Information & Contact"></h2>
+
+    <ul class="info-list contact-list">
+      <li>Facebook:
+        <a href="https://www.facebook.com/admission.mcru/" target="_blank">
+          admission.mcru
+        </a>
+      </li>
+      <li>Line OpenChat:
+        <a href="https://shorturl.asia/pQDFr" target="_blank">
+          คลิกเข้าร่วม
+        </a>
+      </li>
+      <li data-th="โทรศัพท์: 032-720-536 กด 1090"
+          data-en="Phone: +66 32 720 536 ext. 1090"></li>
+    </ul>
+  </div>
+</div>
+
+<footer
+ data-th="© สาขาเทคโนโลยีและนวัตกรรมคอมพิวเตอร์ | MCRU"
+ data-en="© Technology and Computer Innovation | MCRU">
+</footer>
+
+<script>
+let lang = "th";
+const themeBtn = document.getElementById("themeBtn");
+
+function setLang(l){
+  lang = l;
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-th]").forEach(el=>{
+    el.textContent = el.getAttribute("data-"+lang);
+  });
+  document.getElementById("btn-th").classList.toggle("active",lang==="th");
+  document.getElementById("btn-en").classList.toggle("active",lang==="en");
+}
+
+function toggleTheme(){
+  document.body.classList.toggle("light");
+  themeBtn.textContent =
+    document.body.classList.contains("light") ? "☀️" : "🌙";
+}
+
+setLang("th");
+</script>
+
+</body>
+</html>

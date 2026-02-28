@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>About TCI | Technology & Computer Innovation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TCI MCRU | Technology & Computer Innovation </title>
+
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0b0e14;
+  --bg-card:rgba(255,255,255,.08);
+  --text:#ffffff;
+  --sub:#cbd5e1;
+  --primary:#ff5c7c;
+  --accent:#38bdf8;
+  --fb:#1877f2;
+  --apply:#22c55e;
+}
+
+.light{
+  --bg:#f4f6fb;
+  --bg-card:#ffffff;
+  --text:#0f172a;
+  --sub:#334155;
+  --accent:#f59e0b;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Prompt',sans-serif}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  transition:.4s;
+  overflow-x:hidden;
+  padding-top:70px;
+}
+
+/* HEADER */
+header{
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  z-index:100;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  padding:14px 40px;
+  background:rgba(0,0,0,.45);
+  backdrop-filter:blur(12px);
+}
+
+.header-btns{
+  display:flex;
+  gap:14px;
+  align-items:center;
+}
+
+/* LANGUAGE SWITCH */
+.lang-switch{
+  position:relative;
+  width:96px;
+  height:36px;
+  background:rgba(255,255,255,.15);
+  border-radius:30px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 10px;
+  font-weight:600;
+  color:#fff;
+}
+
+.lang-switch span{z-index:2;font-size:.9rem}
+
+.lang-indicator{
+  position:absolute;
+  top:4px;
+  left:4px;
+  width:44px;
+  height:28px;
+  background:linear-gradient(135deg,var(--primary),#ff8fab);
+  border-radius:20px;
+  transition:.4s cubic-bezier(.68,-0.55,.27,1.55);
+  box-shadow:0 0 12px rgba(255,92,124,.8);
+}
+
+.lang-switch.en .lang-indicator{left:48px}
+
+/* THEME SWITCH */
+.theme-switch{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:none;
+  cursor:pointer;
+  font-size:20px;
+  background:radial-gradient(circle,var(--accent),transparent 60%);
+  color:#fff;
+  transition:.4s;
+  box-shadow:0 0 18px rgba(56,189,248,.6);
+}
+
+.theme-switch:hover{transform:rotate(20deg) scale(1.15)}
+
+/* SLIDER */
+.slider{
+  height:calc(85vh - 60px);
+  position:relative;
+  overflow:hidden;
+}
+
+.slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:.8s;
+}
+.slide.active{opacity:1}
+.slide img{
+  width:100%;
+  height:100%;
+  object-fit:contain;     /* เห็นภาพครบ ไม่โดนครอป */
+}
+
+
+/* SLIDER BUTTON */
+.slider-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  border:none;
+  background:rgba(0,0,0,.55);
+  color:#fff;
+  font-size:28px;
+  cursor:pointer;
+  z-index:10;
+  transition:.3s;
+}
+.slider-btn:hover{
+  background:rgba(0,0,0,.8);
+  transform:translateY(-50%) scale(1.1);
+}
+
+.slider-btn.prev{left:20px}
+.slider-btn.next{right:20px}
+
+
+/* CONTENT */
+.content{
+  max-width:1100px;
+  margin:-140px auto 80px;
+  background:var(--bg-card);
+  padding:60px;
+  border-radius:30px;
+  backdrop-filter:blur(12px);
+}
+
+h1{color:var(--primary);font-size:2.6rem;margin-bottom:20px}
+p{color:var(--sub);line-height:1.9}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:24px;
+  margin-top:40px;
+}
+
+.info-card{
+  background:rgba(255,255,255,.08);
+  padding:24px;
+  border-radius:20px;
+  transition:.4s;
+}
+.info-card:hover{transform:translateY(-6px)}
+
+/* ================= BACK HOME ================= */
+.back-home{
+  position:fixed;
+  right:28px;
+  top:110px;          /* ใต้ header พอดี */
+  bottom:auto;
+
+  padding:14px 22px;
+  border-radius:30px;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  z-index:200;
+  box-shadow:0 20px 40px rgba(0,0,0,.4);
+}
+
+/* ===== FLOATING APPLY BUTTON ===== */
+.apply-float{
+  position:fixed;
+  right:26px;
+  bottom:96px;
+  padding:14px 22px;
+  border-radius:40px;
+  background:linear-gradient(135deg,var(--apply),#4ade80);
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  box-shadow:0 12px 30px rgba(34,197,94,.6);
+  z-index:210;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.4s;
+}
+
+.apply-float:hover{
+  transform:scale(1.1);
+  box-shadow:0 18px 40px rgba(34,197,94,.9);
+}
+
+/* FLOAT FB */
+.fb-float{
+  position:fixed;
+  right:26px;
+  bottom:26px;
+  width:56px;
+  height:56px;
+  background:var(--fb);
+  color:#fff;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  text-decoration:none;
+  z-index:200;
+}
+
+@media(max-width:768px){
+  .content{margin:-100px 16px 60px;padding:36px}
+  .apply-float{right:16px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-btns">
+    <div class="lang-switch" id="langSwitch" onclick="toggleLang()">
+      <div class="lang-indicator"></div>
+      <span>TH</span><span>EN</span>
+    </div>
+    <button class="theme-switch" onclick="toggleTheme()" id="themeBtn">🌙</button>
+  </div>
+</header>
+
+<div class="slider">
+  <div class="slide active"><img src="images/img1.jpg"></div>
+  <div class="slide"><img src="images/img2.jpg"></div>
+  <div class="slide"><img src="images/img3.jpg"></div>
+  <div class="slide"><img src="images/img4.jpg"></div>
+  <div class="slide"><img src="images/img5.jpg"></div>
+  <div class="slide"><img src="images/img6.jpg"></div>
+  <div class="slide"><img src="images/img7.jpg"></div>
+  <div class="slide"><img src="images/img8.jpg"></div>
+
+  <button class="slider-btn prev" onclick="prevSlide()">‹</button>
+  <button class="slider-btn next" onclick="nextSlide()">›</button>
+</div>
+
+
+<!-- CONTENT -->
+<section class="content">
+
+  <!-- TITLE -->
+  <h1
+    data-th="สาขาวิชาเทคโนโลยีและนวัตกรรมคอมพิวเตอร์"
+    data-en="Technology & Computer Innovation">
+    สาขาวิชาเทคโนโลยีและนวัตกรรมคอมพิวเตอร์
+  </h1>
+
+  <p
+    data-th="มุ่งเน้นการผลิตบัณฑิตที่มีความรู้ความเชี่ยวชาญด้านการพัฒนาซอฟต์แวร์ การจัดการเครือข่าย และการสร้างนวัตกรรมดิจิทัล"
+    data-en="Focused on producing graduates with expertise in software development, network management, and digital innovation.">
+    มุ่งเน้นการผลิตบัณฑิตที่มีความรู้ความเชี่ยวชาญด้านการพัฒนาซอฟต์แวร์ การจัดการเครือข่าย และการสร้างนวัตกรรมดิจิทัล
+  </p>
+
+  <!-- BASIC INFO -->
+  <div class="info-grid">
+    <div class="info-card">
+      <h3 data-th="สังกัด" data-en="Faculty">สังกัด</h3>
+      <p
+        data-th="คณะวิทยาศาสตร์และเทคโนโลยี"
+        data-en="Faculty of Science and Technology">
+        คณะวิทยาศาสตร์และเทคโนโลยี
+      </p>
+    </div>
+
+    <div class="info-card">
+      <h3 data-th="จุดเด่น" data-en="Highlights">จุดเด่น</h3>
+      <p
+        data-th="ประยุกต์ใช้เทคโนโลยีและนวัตกรรมใหม่"
+        data-en="Applying modern technology and innovation">
+        ประยุกต์ใช้เทคโนโลยีและนวัตกรรมใหม่
+      </p>
+    </div>
+
+    <div class="info-card">
+      <h3 data-th="การเรียนการสอน" data-en="Learning">การเรียนการสอน</h3>
+      <p
+        data-th="ทฤษฎีควบคู่การปฏิบัติจริง"
+        data-en="Theory combined with hands-on practice">
+        ทฤษฎีควบคู่การปฏิบัติจริง
+      </p>
+    </div>
+
+    <div class="info-card">
+      <h3 data-th="สายงานอาชีพ" data-en="Careers">สายงานอาชีพ</h3>
+      <p>Web / App / Network / AI / Digital Media</p>
+    </div>
+  </div>
+
+  <!-- CAREER PATH -->
+  <h1
+    style="margin-top:60px"
+    data-th="แนวทางการประกอบอาชีพหลังเรียนจบ"
+    data-en="Career Paths After Graduation">
+    แนวทางการประกอบอาชีพหลังเรียนจบ
+  </h1>
+
+  <div class="info-grid">
+    <div class="info-card"
+         data-th="นักออกแบบและพัฒนาแอปพลิเคชัน"
+         data-en="Application Designer & Developer">
+      นักออกแบบและพัฒนาแอปพลิเคชัน
+    </div>
+
+    <div class="info-card"
+         data-th="นักออกแบบและผลิตสื่อดิจิทัล"
+         data-en="Digital Media Designer">
+      นักออกแบบและผลิตสื่อดิจิทัล
+    </div>
+
+    <div class="info-card"
+         data-th="ผู้ดูแลและสนับสนุนงานด้านคอมพิวเตอร์"
+         data-en="Computer Support Specialist">
+      ผู้ดูแลและสนับสนุนงานด้านคอมพิวเตอร์
+    </div>
+
+    <div class="info-card"
+         data-th="นักวิชาการคอมพิวเตอร์ (หน่วยงานราชการ)"
+         data-en="Computer Technical Officer (Government)">
+      นักวิชาการคอมพิวเตอร์ (หน่วยงานราชการ)
+    </div>
+
+    <div class="info-card"
+         data-th="นักพัฒนาคอนเทนต์เชิงสร้างสรรค์ด้วย AI"
+         data-en="AI Creative Content Developer">
+      นักพัฒนาคอนเทนต์เชิงสร้างสรรค์ด้วย AI
+    </div>
+
+    <div class="info-card"
+         data-th="นักออกแบบสื่อด้วยปัญญาประดิษฐ์"
+         data-en="AI Media Designer">
+      นักออกแบบสื่อด้วยปัญญาประดิษฐ์
+    </div>
+
+    <div class="info-card"
+         data-th="ผู้กำกับภาพยนตร์อัจฉริยะ"
+         data-en="Intelligent Film Director">
+      ผู้กำกับภาพยนตร์อัจฉริยะ
+    </div>
+  </div>
+
+  <!-- ADMISSION -->
+<h1
+  style="margin-top:60px"
+  data-th="การรับสมัครนักศึกษา ปีการศึกษา 2569"
+  data-en="Admission Year 2026">
+  การรับสมัครนักศึกษา ปีการศึกษา 2569
+</h1>
+
+<div class="info-grid">
+  <div class="info-card">
+    <h3
+      data-th="คุณสมบัติผู้สมัคร"
+      data-en="Applicant Qualifications">
+      คุณสมบัติผู้สมัคร
+    </h3>
+    <p
+      data-th="• ม.6 / กศน. / ปวช. / ปวส. หรือเทียบเท่า
+• เด็กซิ่วสมัครได้
+• ไม่สอบข้อเขียน
+• ไม่จำกัดเกรดเฉลี่ยบางสาขา
+• ไม่ใช้คะแนน TGAT / TPAT / A-Level"
+      data-en="• High school / Vocational or equivalent
+• Gap year applicants accepted
+• No written exam
+• GPA not required for some programs
+• No TGAT / TPAT / A-Level required">
+      • ม.6 / กศน. / ปวช. / ปวส. หรือเทียบเท่า<br>
+      • เด็กซิ่วสมัครได้<br>
+      • ไม่สอบข้อเขียน<br>
+      • ไม่จำกัดเกรดเฉลี่ยบางสาขา<br>
+      • ไม่ใช้คะแนน TGAT / TPAT / A-Level
+    </p>
+  </div>
+
+  <div class="info-card">
+    <h3
+      data-th="ขั้นตอนสมัครเรียน"
+      data-en="Application Process">
+      ขั้นตอนสมัครเรียน
+    </h3>
+    <p
+      data-th="• สมัครผ่านระบบออนไลน์
+• ภาคปกติ ปีการศึกษา 2569
+• ตรวจสอบเอกสารออนไลน์"
+      data-en="• Apply online
+• Regular program, Academic Year 2026
+• Online document verification">
+      • สมัครผ่านระบบออนไลน์<br>
+      • ภาคปกติ ปีการศึกษา 2569<br>
+      • ตรวจสอบเอกสารออนไลน์
+    </p>
+  </div>
+</div>
+
+
+  <a href="index.html"
+     class="back-home"
+     data-th="← กลับหน้าแรก"
+     data-en="← Back to Home">
+    ← กลับหน้าแรก
+  </a>
+
+</section>
+
+
+<!-- FLOATING APPLY -->
+<a href="admission.html"
+   class="apply-float"
+   data-th="สมัครเรียน"
+   data-en="Apply Now">
+สมัครเรียน
+</a>
+
+<!-- FACEBOOK -->
+<a class="fb-float" href="https://www.facebook.com/TCI.MCRU" target="_blank">f</a>
+
+<script>
+let slides = document.querySelectorAll('.slide');
+let index = 0;
+let autoSlide;
+
+function showSlide(i){
+  slides.forEach(s => s.classList.remove('active'));
+  slides[i].classList.add('active');
+}
+
+function nextSlide(){
+  index = (index + 1) % slides.length;
+  showSlide(index);
+  resetAuto();
+}
+
+function prevSlide(){
+  index = (index - 1 + slides.length) % slides.length;
+  showSlide(index);
+  resetAuto();
+}
+
+function startAuto(){
+  autoSlide = setInterval(nextSlide, 5000);
+}
+
+function resetAuto(){
+  clearInterval(autoSlide);
+  startAuto();
+}
+
+startAuto();
+
+/* THEME */
+function toggleTheme(){
+  document.body.classList.toggle('light');
+  themeBtn.innerText = document.body.classList.contains('light') ? '☀️' : '🌙';
+}
+
+/* LANGUAGE */
+let lang='th';
+function toggleLang(){
+  lang = lang === 'th' ? 'en' : 'th';
+  document.querySelectorAll('[data-th]').forEach(el=>{
+    el.innerText = el.dataset[lang];
+  });
+  langSwitch.classList.toggle('en', lang === 'en');
+}
+</script>

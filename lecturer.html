@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>TCI Lecturers</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0b0e14;
+  --card:#151a22;
+  --text:#ffffff;
+  --sub:#cbd5e1;
+  --primary:#ff5c7c;
+  --accent:#38bdf8;
+}
+
+.light{
+  --bg:#f4f6fb;
+  --card:#ffffff;
+  --text:#0f172a;
+  --sub:#334155;
+  --primary:#ff5c7c;
+  --accent:#0ea5e9;
+}
+
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Prompt',sans-serif}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  padding-top:120px;
+  transition:background .4s,color .4s;
+}
+
+
+/* ================= HEADER ================= */
+header{
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  height:96px;
+  padding:0 36px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:16px;
+  background:transparent;
+  z-index:100;
+  
+}
+.logo-box{
+  position:absolute;
+  left:36px;
+}
+.logo-box img{
+  height:200px;        /* ขยายโลโก้ */
+}
+
+
+.lang-switch{
+  position:relative;
+  width:96px;height:36px;
+  background:rgba(255,255,255,.15);
+  border-radius:30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 10px;
+  font-weight:600;
+  cursor:pointer;
+}
+.lang-switch span{z-index:2;font-size:.9rem}
+.lang-indicator{
+  position:absolute;
+  top:4px;left:4px;
+  width:44px;height:28px;
+  background:linear-gradient(135deg,var(--primary),#ff8fab);
+  border-radius:20px;
+  transition:.4s;
+}
+.lang-switch.en .lang-indicator{left:48px}
+
+.theme-switch{
+  width:42px;height:42px;
+  border-radius:50%;
+  border:none;
+  cursor:pointer;
+  font-size:18px;
+  background:radial-gradient(circle,var(--accent),transparent 65%);
+}
+
+/* ================= MAIN ================= */
+.container{
+  max-width:1500px;
+  margin:auto;
+  padding:40px 40px 120px;
+  text-align:center;
+}
+h1{
+  color:var(--primary);
+  font-size:3rem;
+  margin-bottom:14px;
+}
+.subtitle{
+  color:var(--sub);
+  margin-bottom:70px;
+}
+
+/* ================= LECTURER ROW ================= */
+.lecturer-row{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:36px;
+}
+
+/* ================= CARD ================= */
+.lecturer-card{
+  background:var(--card);
+  border-radius:28px;        /* เดิม ~20 → มนขึ้น */
+  overflow:hidden;           /* สำคัญ: ให้รูปไม่ล้นขอบ */
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
+  transition:.35s;
+}
+
+.lecturer-card:hover{
+  transform:translateY(-12px);
+  box-shadow:0 30px 60px rgba(0,0,0,.55);
+}
+
+.lecturer-card img{
+  width:100%;
+  height:420px;
+  object-fit:cover;
+  object-position:top;
+
+  border-radius:28px;        /* มนเท่าการ์ด */
+  border:3px solid rgba(255,255,255,.08);
+}
+
+
+
+.card-info{
+  padding:20px 22px 24px;
+  text-align:left;
+}
+.card-info h3{
+  color:var(--accent);
+  font-size:1.05rem;
+  margin-bottom:6px;
+}
+.card-info .role{
+  color:var(--primary);
+  font-size:.9rem;
+}
+
+/* ================= MODAL ================= */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+.modal.active{display:flex}
+
+.modal-box{
+  background:var(--card);
+  color:var(--text);
+  border-radius:30px;
+  max-width:820px;
+  width:94%;
+  padding:36px;
+  position:relative;
+}
+
+.modal-img-wrap{
+  position:relative;
+}
+.modal-img-wrap img{
+  width:100%;
+  height:420px;
+  object-fit:cover;
+  object-position:top;
+  border-radius:22px;
+  margin-bottom:20px;
+}
+
+.nav-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:44px;height:44px;
+  border-radius:50%;
+  border:none;
+  cursor:pointer;
+  font-size:20px;
+  color:#fff;
+  background:rgba(0,0,0,.45);
+}
+.nav-btn:hover{background:rgba(0,0,0,.7)}
+.prev{left:14px}
+.next{right:14px}
+
+.modal-box h2{color:var(--accent);margin-bottom:10px}
+.modal-box p{color:var(--sub);line-height:1.8}
+
+.close{
+  position:absolute;
+  top:18px;right:22px;
+  font-size:26px;
+  cursor:pointer;
+}
+
+/* ================= BACK HOME ================= */
+.back-home{
+  position:fixed;
+  right:28px;
+  top:110px;          /* ใต้ header พอดี */
+  bottom:auto;
+
+  padding:14px 22px;
+  border-radius:30px;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  z-index:200;
+  box-shadow:0 20px 40px rgba(0,0,0,.4);
+}
+
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:1400px){
+  .lecturer-row{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:900px){
+  .lecturer-row{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:520px){
+  .lecturer-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo-box">
+    <img src="logo.png">
+  </div>
+
+  <div class="lang-switch" id="langSwitch" onclick="toggleLang()">
+    <div class="lang-indicator"></div>
+    <span>TH</span><span>EN</span>
+  </div>
+  <button class="theme-switch" onclick="toggleTheme()">🌙</button>
+</header>
+
+<a href="index.html" class="back-home"
+   data-th="กลับหน้าแรก"
+   data-en="Back to Home">กลับหน้าแรก</a>
+
+<section class="container">
+  <h1 data-th="คณาจารย์ประจำสาขา TCI" data-en="TCI Faculty Members">คณาจารย์ประจำสาขา TCI</h1>
+  <p class="subtitle"
+     data-th="ผู้ถ่ายทอดความรู้ ประสบการณ์ และสร้างนวัตกรรม"
+     data-en="Lecturers who inspire innovation">
+     ผู้ถ่ายทอดความรู้ ประสบการณ์ และสร้างนวัตกรรม
+  </p>
+
+  <div class="lecturer-row">
+
+    <!-- คนที่ 1 -->
+<div class="lecturer-card" onclick="openModal(0)">
+  <img src="images/adisak.jpg">
+  <div class="card-info">
+    <h3
+      data-th="อาจารย์ อดิศักดิ์ โฮนอก"
+      data-en="Adisak Honok">
+      อาจารย์ อดิศักดิ์ โฮนอก
+    </h3>
+    <div class="role"
+      data-th="เลขานุการ"
+      data-en="Secretary">
+      เลขานุการ
+    </div>
+  </div>
+</div>
+
+<!-- คนที่ 2 -->
+<div class="lecturer-card" onclick="openModal(1)">
+  <img src="images/darawan.jpg">
+  <div class="card-info">
+    <h3
+      data-th="อาจารย์ ผศ.ดร.ดาราวรรณ ญาณะนันท์"
+      data-en="Assoc.Prof. Dr. Darawan Yananan">
+      อาจารย์ ผศ.ดร.ดาราวรรณ ญาณะนันท์
+    </h3>
+    <div class="role"
+      data-th="กรรมการ"
+      data-en="Committee">
+      กรรมการ
+    </div>
+  </div>
+</div>
+
+<!-- คนที่ 3 -->
+<div class="lecturer-card" onclick="openModal(2)">
+  <img src="images/sathaporn.jpg">
+  <div class="card-info">
+    <h3
+      data-th="อาจารย์ ดร.สถาพร จะนุ"
+      data-en="Dr. Sathaporn Janu">
+      อาจารย์ ดร.สถาพร จะนุ
+    </h3>
+    <div class="role"
+      data-th="ประธานสาขา"
+      data-en="Head of Program">
+      ประธานสาขา
+    </div>
+  </div>
+</div>
+
+<!-- คนที่ 4 -->
+<div class="lecturer-card" onclick="openModal(3)">
+  <img src="images/wilai.jpg">
+  <div class="card-info">
+    <h3
+      data-th="อาจารย์ ผศ.ดร.วิลัยพร ไชยสิทธิ์"
+      data-en="Assoc.Prof. Dr. Wilai Chaisit">
+      อาจารย์ ผศ.ดร.วิลัยพร ไชยสิทธิ์
+    </h3>
+    <div class="role"
+      data-th="กรรมการ"
+      data-en="Committee">
+      กรรมการ
+    </div>
+  </div>
+</div>
+
+<!-- คนที่ 5 -->
+<div class="lecturer-card" onclick="openModal(4)">
+  <img src="images/anat.jpg">
+  <div class="card-info">
+    <h3
+      data-th="อาจารย์ อาณัติ หน่อทองคำ"
+      data-en="Anat Nortongkam">
+      อาจารย์ อาณัติ หน่อทองคำ
+    </h3>
+    <div class="role"
+      data-th="กรรมการ"
+      data-en="Committee">
+      กรรมการ
+    </div>
+  </div>
+</div>
+
+</section>
+
+<!-- ================= MODAL (SHARED) ================= -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <span class="close" onclick="closeModal()">✕</span>
+
+    <div class="modal-img-wrap">
+      <button class="nav-btn prev" onclick="prevImg()">‹</button>
+      <img id="modalImg">
+      <button class="nav-btn next" onclick="nextImg()">›</button>
+    </div>
+
+    <h2 id="modalTitle"></h2>
+    <p id="modalDesc"></p>
+  </div>
+</div>
+
+<script>
+  function toggleTheme(){
+  document.body.classList.toggle('light');
+  const btn = document.querySelector('.theme-switch');
+  btn.innerText = document.body.classList.contains('light') ? '☀️' : '🌙';
+}
+
+
+const data = [
+  {
+    imgs:['images/adisak.jpg','images/adisak2.jpg'],
+    th:{t:'อาจารย์ อดิศักดิ์ โฮนอก',d:'ระบบคอมพิวเตอร์และเครือข่าย'},
+    en:{t:'Adisak Honok',d:'Computer systems and networking'}
+  },
+  {
+    imgs:['images/darawan.jpg','images/darawan2.jpg'],
+    th:{t:'อาจารย์ ผศ.ดร.ดาราวรรณ ญาณะนันท์',d:'ด้านงานวิจัยและเทคโนโลยีสารสนเทศ'},
+    en:{t:'Assoc.Prof. Dr. Darawan',d:'Research and information technology'}
+  },
+  {
+    imgs:['images/sathaporn.jpg','images/sathaporn2.jpg'],
+    th:{t:'อาจารย์ ดร.สถาพร จะนุ',d:'ผู้เชี่ยวชาญด้านเทคโนโลยีและนวัตกรรม'},
+    en:{t:'Dr. Sathaporn Janu',d:'Expert in technology and innovation'}
+  },
+  {
+    imgs:['images/wilai.jpg','images/wilai2.jpg'],
+    th:{t:'อาจารย์ ผศ.ดร.วิลัยพร ไชยสิทธิ์',d:'การวิเคราะห์ข้อมูลดิจิทัล'},
+    en:{t:'Assoc.Prof. Dr. Wilai',d:'Digital data analytics'}
+  },
+  {
+    imgs:['images/anat.jpg','images/anat2.jpg'],
+    th:{t:'อาจารย์ อาณัติ หน่อทองคำ',d:'การเรียนรู้เชิงปฏิบัติและสื่อ'},
+    en:{t:'Anat Nortongkam',d:'Practical learning and media'}
+  }
+]
+
+let curIndex=0,curImg=0,lang='th'
+
+function openModal(i){
+  curIndex=i;curImg=0
+  renderModal()
+  modal.classList.add('active')
+}
+function closeModal(){
+  modal.classList.remove('active')
+}
+function renderModal(){
+  modalImg.src=data[curIndex].imgs[curImg]
+  modalTitle.innerText=data[curIndex][lang].t
+  modalDesc.innerText=data[curIndex][lang].d
+}
+function prevImg(){
+  curImg=(curImg-1+data[curIndex].imgs.length)%data[curIndex].imgs.length
+  modalImg.src=data[curIndex].imgs[curImg]
+}
+function nextImg(){
+  curImg=(curImg+1)%data[curIndex].imgs.length
+  modalImg.src=data[curIndex].imgs[curImg]
+}
+
+function toggleTheme(){
+  document.body.classList.toggle('light')
+}
+
+function toggleLang(){
+  lang = lang==='th'?'en':'th'
+  document.querySelectorAll('[data-th]').forEach(el=>{
+    el.innerText = el.dataset[lang]
+  })
+  if(modal.classList.contains('active')) renderModal()
+  langSwitch.classList.toggle('en',lang==='en')
+}
+
+window.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeModal()
+  if(e.key==='ArrowLeft') prevImg()
+  if(e.key==='ArrowRight') nextImg()
+})
+</script>
+
+</body>
+</html>

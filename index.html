@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TCI MCRU | Technology & Computer Innovation </title>
+
+<style>
+/* ================= RESET ================= */
+body{
+  margin:0;
+  font-family:Segoe UI, Tahoma;
+  background:#0d1117;
+  color:#e6edf3;
+}
+.page{
+  padding:140px 80px;
+}
+/* ================= TOP BAR ================= */
+.top-bar{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  height:100px;
+  padding:0 30px;
+  background:#111;
+  color:#fff;
+  position:relative;
+  z-index:30;
+}
+
+.logo-box{
+  width:360px;
+  height:50px;
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.logo-box img{
+  height:240px;
+}
+
+.top-center{
+  display:flex;
+  justify-content:center;
+  gap:22px;
+}
+.top-center a{
+  color:#fff;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:500;
+}
+.top-center a:hover{text-decoration:underline}
+
+.top-right{
+  display:flex;
+  gap:10px;
+}
+.lang-btn{
+  background:#333;
+  border:none;
+  color:#fff;
+  padding:6px 12px;
+  border-radius:6px;
+  font-weight:600;
+  cursor:pointer;
+}
+.lang-btn.active{background:#c0392b}
+
+/* ================= SUB NAV ================= */
+.bu-subnav{
+  display:flex;
+  background:#7a3a3a;
+  border-radius:10px;
+  overflow:hidden;
+  width:90%;
+  position:absolute;
+  top:120px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:20;
+}
+.bu-subnav a{
+  flex:1;
+  padding:18px 10px;
+  text-align:center;
+  color:#fff;
+  text-decoration:none;
+  font-size:15px;
+  font-weight:500;
+  border-right:1px solid rgba(255,255,255,.25);
+}
+.bu-subnav a:last-child{border-right:none}
+.bu-subnav a:hover{background:#8f4b4b}
+.bu-subnav a.active{background:#6b2e2e}
+
+/* ================= HERO SLIDER ================= */
+.hero-slider{
+  position:relative;
+  height:88vh;
+  overflow:hidden;
+}
+
+.slide{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transition:opacity 1.2s ease;
+}
+.slide.active{opacity:1;z-index:1}
+
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to right,
+    rgba(0,0,0,.75),
+    rgba(0,0,0,.45),
+    rgba(0,0,0,.15)
+  );
+}
+
+.hero-content{
+  position:absolute;
+  bottom:50px;
+  left:80px;
+  color:#fff;
+  max-width:700px;
+  z-index:2;
+}
+.hero-content h1{
+  font-size:50px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+.hero-content p{
+  font-size:18px;
+  opacity:.9;
+}
+
+/* ================= SUPER CTA (MAX VISIBILITY) ================= */
+.apply-float{
+  position:fixed;
+  right:36px;
+  bottom:36px;
+
+  padding:36px 72px;          /* ใหญ่ขึ้นชัดเจน */
+  border-radius:999px;
+
+  background:linear-gradient(
+    135deg,
+    #8d0505 0%,
+    #fc099f 45%,
+    #c90303 100%
+  );
+
+  color:#fff;
+  text-decoration:none;
+  font-size:30px;             /* ตัวอักษรใหญ่ */
+  font-weight:900;
+  letter-spacing:1px;
+
+  z-index:999;
+
+  box-shadow:
+    0 25px 70px rgba(255,45,85,.65),
+    0 0 0 0 rgba(255,214,10,.8);
+
+  animation:pulseCTA 1.8s infinite;
+  transition:all .25s ease;
+}
+
+/* Hover */
+.apply-float:hover{
+  transform:translateY(-6px) scale(1.15);
+  box-shadow:
+    0 35px 90px rgba(255,45,85,.85),
+    0 0 45px rgba(255,214,10,1);
+}
+
+/* Click */
+.apply-float:active{
+  transform:scale(.95);
+}
+.apply-float .cta-text{
+  font-size:40px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:#ffe600;
+}
+
+
+
+/* Pulse Animation */
+@keyframes pulseCTA{
+  0%{
+    box-shadow:
+      0 25px 70px rgba(255,45,85,.65),
+      0 0 0 0 rgba(248, 2, 2, 0.7);
+  }
+  70%{
+    box-shadow:
+      0 30px 90px rgba(255,45,85,.75),
+      0 0 0 22px rgba(255,214,10,0);
+  }
+  100%{
+    box-shadow:
+      0 25px 70px rgba(255,45,85,.65),
+      0 0 0 0 rgba(255,214,10,0);
+  }
+}
+
+/* Mobile = ใหญ่เต็มตา */
+@media(max-width:768px){
+  .apply-float{
+    right:50%;
+    transform:translateX(50%);
+    bottom:18px;
+
+    padding:28px 64px;
+    font-size:20px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="logo-box">
+    <img src="logo.png" alt="TCI">
+  </div>
+
+  <div class="top-center">
+    <a href="https://www.facebook.com/TCI.MCRU" target="_blank" rel="noopener" data-key="menu_campus"></a>
+    <a href="https://www.mcru.ac.th/index.php/th" target="_blank" rel="noopener" data-key="menu_about"></a>
+
+  </div>
+
+  <div class="top-right">
+    <button class="lang-btn th" onclick="setLanguage('th')">TH</button>
+    <button class="lang-btn en" onclick="setLanguage('en')">EN</button>
+  </div>
+</div>
+
+<!-- SUB NAV -->
+<nav class="bu-subnav">
+  <a href="index.html" class="active" data-key="overview"></a>
+  <a href="about.html" data-key="faculty"></a>
+  <a href="Portfolios.html" data-key="student_work"></a>
+  <a href="lab.html" data-key="lab"></a>
+  <a href="student.html" data-key="activity"></a>
+  <a href="lecturer.html" data-key="lecturer"></a>
+</nav>
+
+
+<!-- HERO -->
+<section class="hero-slider">
+
+  <div class="slide active" style="background-image:url('hero1.jpg')">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 data-key="hero1_title"></h1>
+      <p data-key="hero1_sub"></p>
+    </div>
+  </div>
+
+  <div class="slide" style="background-image:url('hero2.jpg')">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 data-key="hero2_title"></h1>
+      <p data-key="hero2_sub"></p>
+    </div>
+  </div>
+
+  <div class="slide" style="background-image:url('hero3.jpg')">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 data-key="hero_title"></h1>
+      <p data-key="hero_sub"></p>
+    </div>
+  </div>
+
+</section>
+
+<!-- CTA -->
+<a href="admission.html" class="apply-float">
+  <span class="cta-text" data-key="apply"></span>
+</a>
+
+
+<!-- FOOTER -->
+<footer data-key="footer"></footer>
+
+<script>
+/* ================= HERO SLIDER ================= */
+let index = 0;
+const slides = document.querySelectorAll(".slide");
+
+setInterval(()=>{
+  slides[index].classList.remove("active");
+  index = (index+1)%slides.length;
+  slides[index].classList.add("active");
+},5000);
+
+/* ================= LANGUAGE SYSTEM ================= */
+const translations = {
+  th:{
+    menu_program:"หลักสูตร",
+    menu_campus:"facebook TCI",
+    menu_about:"เว็บไซต์ มหาวิทยาลัย",
+    overview:"หน้าเเรก",
+    faculty:"เกี่ยวกับสาขา",
+    student_work:"ผลงานนักศึกษา",
+    lab:"ห้องปฏิบัติการ",
+    activity:"กิจกรรม",
+    lecturer:"อาจารย์",
+    hero_title:"สาขาวิชาเทคโนโลยีและนวัตกรรมคอมพิวเตอร์",
+    hero_sub:"Technology & Computer Innovation",
+    hero1_title:"สร้างนักพัฒนาอัจฉริยะ",
+    hero1_sub:"AI • Data • Software • Innovation",
+    hero2_title:"เรียนจริง ทำจริง",
+    hero2_sub:"การเรียนรู้ที่ขับเคลื่อนโดยอุตสาหกรรม",
+    apply:"สมัครเรียน",
+    footer:" TCI MCRU WEB | by manatsawin & supakorn TCI GEN 7"
+  },
+  en:{
+    menu_program:"Programs",
+    menu_campus:"facebook TCI",
+    menu_about:"University Website",
+    overview:"Home",
+    faculty:"Department",
+    student_work:"Student Works",
+    lab:"Laboratories",
+    activity:"Activities",
+    lecturer:"Lecturers",
+    hero_title:"Technology and Computer Innovation",
+    hero_sub:"Technology & Computer Innovation",
+    hero1_title:"Building Smart Developers",
+    hero1_sub:"AI • Data • Software • Innovation",
+    hero2_title:"Learn by Doing",
+    hero2_sub:"Industry Driven Learning",
+    apply:"Apply Now",
+    footer:"© 2026 Technology & Computer Innovation (TCI) | MCRU"
+  }
+};
+
+function setLanguage(lang){
+  document.querySelectorAll("[data-key]").forEach(el=>{
+    const key = el.dataset.key;
+    if(translations[lang][key]){
+      el.textContent = translations[lang][key];
+    }
+  });
+  document.querySelectorAll(".lang-btn").forEach(b=>b.classList.remove("active"));
+  document.querySelector(".lang-btn."+lang).classList.add("active");
+  localStorage.setItem("lang",lang);
+}
+
+/* default */
+setLanguage(localStorage.getItem("lang") || "th");
+</script>
+
+</body>
+</html>
